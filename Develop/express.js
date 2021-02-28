@@ -8,6 +8,7 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 9090;
 
+app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -17,14 +18,14 @@ app.get("/", (req, res) => {
 });
 
 app.get("/notes", (req, res) => {
-    res.sendFile('/public/notes.html');
+    res.sendFile(path.resolve(__dirname, 'public/notes.html'));
 });
 
 // API Routes
 
 // Get all notes
 app.get("/api/notes", (req, res) => {
-    let notesData = fs.readFileSync(path.resolve(__dirname, 'db.json'));
+    let notesData = fs.readFileSync(path.resolve(__dirname, 'db/db.json'));
     let notesJSON = JSON.parse(notesData);
     res.send(notesJSON)
 });
