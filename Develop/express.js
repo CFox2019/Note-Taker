@@ -4,6 +4,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { nextTick } = require('process');
 
 const app = express();
 const PORT = process.env.PORT || 9090;
@@ -50,17 +51,25 @@ app.post("/api/notes", (req, res) => {
     const newnote = req.body;
     console.log(newnote);
 
-    // We then add the json the user sent to the character
-    notes.push(newnote);
+    let notesData = fs.readFileSync(path.resolve(__dirname, 'db/db.json'));
+    let notesJSON = JSON.parse(notesData);
+
+    // We then add the json the user sent to the notes
+    notesJSON.push(newnote);
+
+    // write notesJSON back to db.json
+    fs.writeFile('db/db.json', JSON.stringify(notesJSON), err => {
+        if (err) {
+            console.log('Error writing file', err)
+            next(err)
+        } else {
+            console.log('Successfully wrote file')
+        }
+    })
 
     // We then display the JSON to the users
     res.json(newnote);
 });
-
-
-
-// get all notes
-
 
 // listener
 app.listen(PORT, () => console.log(`Server currently running on http://localhost:${PORT}`));
