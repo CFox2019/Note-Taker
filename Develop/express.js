@@ -4,7 +4,6 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const { nextTick } = require('process');
 
 const app = express();
 const PORT = process.env.PORT || 9090;
@@ -31,31 +30,19 @@ app.get("/api/notes", (req, res) => {
     res.send(notesJSON)
 });
 
-// Get a specific note using dynamic routing (:note)
-app.get("/api/notes/:note", (req, res) => {
-    const saved = req.params.notes;
-    let found = false;
-    notes.forEach(note => {
-        if (saved === note.route) {
-            found = true;
-            res.json(note);
-        }
-    });
-    if (!found) {
-        res.send("No saved notes!");
-    }
-});
-
 // add a new note object to our "Database"
 app.post("/api/notes", (req, res) => {
-    const newnote = req.body;
-    console.log(newnote);
+    const newNote = req.body;
+    console.log(newNote);
 
     let notesData = fs.readFileSync(path.resolve(__dirname, 'db/db.json'));
     let notesJSON = JSON.parse(notesData);
 
+    // Add a unique ID to the note
+    newNote.id = Math.random().toString(36)
+
     // We then add the json the user sent to the notes
-    notesJSON.push(newnote);
+    notesJSON.push(newNote);
 
     // write notesJSON back to db.json
     fs.writeFile('db/db.json', JSON.stringify(notesJSON), err => {
@@ -68,7 +55,7 @@ app.post("/api/notes", (req, res) => {
     })
 
     // We then display the JSON to the users
-    res.json(newnote);
+    res.json(newNote);
 });
 
 // listener
