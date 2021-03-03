@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const NotesManager = require('./notes_manager.js');
 
-const notesManager = new NotesManager()
+const notesManager = new NotesManager();
 
 const app = express();
 const PORT = process.env.PORT || 9090;
@@ -28,8 +28,8 @@ app.get("/notes", (req, res) => {
 
 // Get all notes
 app.get("/api/notes", (req, res) => {
-    const notes = notesManager.notes()
-    res.send(notes)
+    const notes = notesManager.notes();
+    res.send(notes);
 });
 
 // add a new note object to our "Database"
@@ -45,6 +45,7 @@ app.post("/api/notes", (req, res) => {
     })
 });
 
+// delete a note object from our "Database"
 app.delete('/api/notes/:id', (req, res) => {
     const noteId = req.params.id
     notesManager.deleteNote(noteId, (err) => {
@@ -55,7 +56,7 @@ app.delete('/api/notes/:id', (req, res) => {
             res.status(204).send();
         }
     })
-})
+});
 
 // listener
 app.listen(PORT, () => console.log(`Server currently running on http://localhost:${PORT}`));
