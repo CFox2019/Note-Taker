@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-class NotesManager {
+class NotesRepository {
 
     notes() {
         let notesData = fs.readFileSync(path.resolve(__dirname, '../db/db.json'));
@@ -39,4 +39,4 @@ class NotesManager {
 
 }
 
-module.exports = NotesManager;
+module.exports = NotesRepository;
