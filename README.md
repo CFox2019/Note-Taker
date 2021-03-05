@@ -31,7 +31,10 @@ There are no tests at this time.
 ## Questions
 GitHub: [CdFox2019](https://github.com/CFox2019)
 
+Repository's Github Link: [Taking-Notes-with-Express](https://github.com/CFox2019/Taking-Notes-with-Express)
+
 Email me at [courtney.fox@me.com](courtney.fox@me.com) with additional questions.
+
 
 ## License
 This project is covered under the MIT license.
